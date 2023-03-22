@@ -22,12 +22,12 @@ First you need to edit the file `set_environment.sh` and specify your
 cryoSPARC license id and your credit account on the VSC (for example,
 `default_project` if you want to use the introduction credits). Optionally,
 you can adapt the installation directory but somewhere in ${VSC_DATA} is
-probably the best option. Next, you need to make those variables available
-in your terminal session:
+probably the best option. You can also set the directory where cryoSPARC will
+do SSD particle caching (see
+https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/tutorial-ssd-particle-caching-in-cryosparc).
 
-```source set_environment.sh```
 
-Then you need to download the installation files:
+Nex you need to download the installation files:
 
 ```bash download_cryosparc.sh```
 

@@ -31,7 +31,8 @@
 #PBS -l walltime=24:00:00
 
 cd $PBS_O_WORKDIR
-module load CUDA/10.1.105
+module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
+module load CUDA/11.3.1
 
 available_devs=""
 for devidx in $(seq 0 3);

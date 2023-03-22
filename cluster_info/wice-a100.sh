@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -l
 #### cryoSPARC cluster submission script template for PBS
 ## Available variables:
 ## {{ run_cmd }}            - the complete command string to run the job
@@ -19,20 +19,20 @@
 ## {{ job_creator }}        - name of the user that created the job (may contain spaces)
 ## {{ cryosparc_username }} - cryosparc username of the user that created the job (usually an email)
 ##
-## What follows is a simple PBS script:
+## What follows is a simple SLURM script:
 
-#PBS -N cryosparc_{{ project_uid }}_{{ job_uid }}
-#PBS -l nodes=1:ppn={{ num_gpu*9 }}:gpus={{ num_gpu }}:skylake
-#PBS -l mem={{ (ram_gb*1000)|int }}mb
-#PBS -l partition=gpu
-#PBS -A __credit_account__
-#PBS -o {{ job_dir_abs }}
-#PBS -e {{ job_dir_abs }}
-#PBS -l qos=debugging
-#PBS -l walltime=00:30:00
+#SBATCH --job-name=cryosparc_{{ project_uid }}_{{ job_uid }}
+#SBATCH --nodes=1
+#SBATCH --ntasks={{ num_gpu*18 }}
+#SBATCH --gpus-per-node={{ num_gpu }}
+#SBATCH --account=__credit_account__
+#SBATCH --partition=gpu
+#SBATCH --output={{ job_log_path_abs }}
+#SBATCH --error={{ job_log_path_abs }}
+#SBATCH --time=24:00:00
 
-cd $PBS_O_WORKDIR
-module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
+cd $SLURM_SUBMIT_DIR
+module use /apps/leuven/icelake/2021a/modules/all
 module load CUDA/11.3.1
 
 available_devs=""
@@ -48,6 +48,10 @@ do
 done
 export CUDA_VISIBLE_DEVICES=$available_devs
 
-export CRYOSPARC_SSD_PATH="${VSC_SCRATCH_NODE}"
+if [ -z ${CRYOSPARC_SSD_PATH+x} ]; then
+    export CRYOSPARC_SSD_PATH="${SSD_PATH}"
+fi
 
+echo "CUDA_VISIBLE_DEVICES=" $CUDA_VISIBLE_DEVICES
+echo {{ run_cmd }}
 {{ run_cmd }}
