@@ -21,6 +21,19 @@ fi
 
 # Download and extract tar files
 curl -L https://get.cryosparc.com/download/master-latest/$LICENSE_ID -o cryosparc_master.tar.gz
-curl -L https://get.cryosparc.com/download/worker-latest/$LICENSE_ID -o cryosparc_worker.tar.gz
 tar -xf cryosparc_master.tar.gz cryosparc_master
-tar -xf cryosparc_worker.tar.gz cryosparc_worker
+
+# Install master
+if [ ! -d ${SPARCDIR}/cryosparc_master ]; then
+    echo "Installation files not found! Exiting"
+    exit
+fi
+cd ${SPARCDIR}/cryosparc_master
+user_id=$(whoami)
+export port_number=${user_id: -4}0
+export master_hostname=$(echo -e "$(hostname -f)" | tr -d '[:space:]')
+
+./install.sh --license $LICENSE_ID \
+             --hostname ${master_hostname} \
+             --dbpath ${SPARCDIR}/db \
+             --port ${port_number}

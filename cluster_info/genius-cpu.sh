@@ -23,35 +23,18 @@
 
 #SBATCH --job-name=cryosparc_{{ project_uid }}_{{ job_uid }}
 #SBATCH --nodes=1
-#SBATCH --ntasks={{ num_gpu*9 }}
-#SBATCH --gpus-per-node={{ num_gpu }}
+#SBATCH --ntasks={{ num_cpu }}
 #SBATCH --account=__credit_account__
-#SBATCH --partition=gpu_p100
+#SBATCH --partition=batch
 #SBATCH --output={{ job_log_path_abs }}
 #SBATCH --error={{ job_log_path_abs }}
 #SBATCH --time=24:00:00
 
 cd $SLURM_SUBMIT_DIR
-module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
-module load CUDA/11.3.1
-
-available_devs=""
-for devidx in $(seq 0 3);
-do
-    if [[ -z $(nvidia-smi -i $devidx --query-compute-apps=pid --format=csv,noheader) ]] ; then
-        if [[ -z "$available_devs" ]] ; then
-            available_devs=$devidx
-        else
-            available_devs=$available_devs,$devidx
-        fi
-    fi
-done
-export CUDA_VISIBLE_DEVICES=$available_devs
 
 if [ -z ${CRYOSPARC_SSD_PATH+x} ]; then
     export CRYOSPARC_SSD_PATH="${SSD_PATH}"
 fi
 
-echo "CUDA_VISIBLE_DEVICES=" $CUDA_VISIBLE_DEVICES
 echo {{ run_cmd }}
 {{ run_cmd }}

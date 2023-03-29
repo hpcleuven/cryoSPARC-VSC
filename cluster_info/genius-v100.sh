@@ -23,10 +23,10 @@
 
 #SBATCH --job-name=cryosparc_{{ project_uid }}_{{ job_uid }}
 #SBATCH --nodes=1
-#SBATCH --ntasks={{ num_gpu*9 }}
+#SBATCH --ntasks={{ num_gpu*4 }}
 #SBATCH --gpus-per-node={{ num_gpu }}
 #SBATCH --account=__credit_account__
-#SBATCH --partition=gpu_p100
+#SBATCH --partition=gpu_v100
 #SBATCH --output={{ job_log_path_abs }}
 #SBATCH --error={{ job_log_path_abs }}
 #SBATCH --time=24:00:00
@@ -36,7 +36,7 @@ module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
 module load CUDA/11.3.1
 
 available_devs=""
-for devidx in $(seq 0 3);
+for devidx in $(seq 0 7);
 do
     if [[ -z $(nvidia-smi -i $devidx --query-compute-apps=pid --format=csv,noheader) ]] ; then
         if [[ -z "$available_devs" ]] ; then

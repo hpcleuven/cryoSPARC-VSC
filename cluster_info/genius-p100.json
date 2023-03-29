@@ -1,11 +1,13 @@
 {
-    "name" : "genius-p100",
-    "worker_bin_path" : "/scratch/leuven/337/vsc33716/cryoSPARC/cryosparc_worker/bin/cryosparcw",
-    "cache_path" : "/path/to/local/SSD/on/cluster/nodes",
-    "send_cmd_tpl" : "{{ command }}",
-    "qsub_cmd_tpl" : "LD_PRELOAD= qsub {{ script_path_abs }}",
-    "qstat_cmd_tpl" : "qstat -as {{ cluster_job_id }}",
-    "qdel_cmd_tpl" : "qdel {{ cluster_job_id }}",
-    "qinfo_cmd_tpl" : "qstat -q",
-    "transfer_cmd_tpl" : "scp {{ src_path }} {{ dest_path }}"
+    "qdel_cmd_tpl": "scancel --cluster=genius {{ cluster_job_id }}",
+    "worker_bin_path" : "__worker_path__/cryosparc_worker_wice/bin/cryosparcw",
+    "title": "genius-p100",
+    "cache_path": "/ssd/tmp",
+    "qinfo_cmd_tpl": "sinfo --cluster=genius --format='%.8N %.6D %.10P %.6T %.14C %.5c %.6z %.7m %.7G %.9d %20E'",
+    "qsub_cmd_tpl": "sbatch --cluster=genius {{ script_path_abs }}",
+    "qstat_cmd_tpl": "squeue --cluster=genius -j {{ cluster_job_id }}",
+    "cache_quota_mb": null,
+    "send_cmd_tpl": "{{ command }}",
+    "cache_reserve_mb": 10000,
+    "name": "genius-p100"
 }
