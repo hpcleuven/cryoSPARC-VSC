@@ -2,12 +2,13 @@
 
 #SBATCH --job-name=install_cryosparc_worker
 #SBATCH --nodes=1
-#SBATCH --ntasks=18
-#SBATCH --gpus-per-node=2
+#SBATCH --ntasks=9
+#SBATCH --gpus-per-node=1
+#SBATCH --partition=gpu_p100
+#SBATCH --cluster=genius
 #SBATCH --time=01:00:00
-#SBATCH --account=<YOUR_CREDIT_ACCOUNT>
-#SBATCH --partition=gpu
-#SBATCH --cluster=wice
+# #SBATCH --account=<YOUR_CREDIT_ACCOUNT>
+#SBATCH --account=lpt2_sysadmin
 
 source set_environment.sh
 
@@ -30,14 +31,16 @@ fi
 
 # Download and extract tar files
 curl -L https://get.cryosparc.com/download/worker-latest/$LICENSE_ID -o cryosparc_worker.tar.gz
-tar -xf cryosparc_worker.tar.gz cryosparc_worker_${VSC_INSTITUTE_CLUSTER}
+target=${SPARCDIR}/${VSC_OS_LOCAL}_${VSC_ARCH_LOCAL}${VSC_ARCH_SUFFIX}
+mkdir -p ${target}
+tar -xf cryosparc_worker.tar.gz -C ${target}
 
 # Install worker
-if [ ! -d ${SPARCDIR}/cryosparc_worker_${VSC_INSTITUTE_CLUSTER} ]; then
+if [ ! -d ${target} ]; then
     echo "Installation files not found! Exiting"
     exit
 fi
-cd ${SPARCDIR}/cryosparc_worker_${VSC_INSTITUTE_CLUSTER}
+cd ${target}/cryosparc_worker
 module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
 module load CUDA/11.3.1
 ./install.sh --license ${LICENSE_ID} --cudapath ${CUDA_ROOT}

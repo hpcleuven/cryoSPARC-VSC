@@ -33,7 +33,7 @@
 cd $SLURM_SUBMIT_DIR
 
 if [ -z ${CRYOSPARC_SSD_PATH+x} ]; then
-    export CRYOSPARC_SSD_PATH="${SSD_PATH}"
+    export CRYOSPARC_SSD_PATH=__ssd_path__
 fi
 
 echo {{ run_cmd }}

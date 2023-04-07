@@ -49,7 +49,7 @@ done
 export CUDA_VISIBLE_DEVICES=$available_devs
 
 if [ -z ${CRYOSPARC_SSD_PATH+x} ]; then
-    export CRYOSPARC_SSD_PATH="${SSD_PATH}"
+    export CRYOSPARC_SSD_PATH=__ssd_path__
 fi
 
 echo "CUDA_VISIBLE_DEVICES=" $CUDA_VISIBLE_DEVICES

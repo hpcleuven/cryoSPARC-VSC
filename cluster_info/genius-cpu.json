@@ -1,6 +1,6 @@
 {
     "qdel_cmd_tpl": "scancel --cluster=genius {{ cluster_job_id }}",
-    "worker_bin_path" : "__worker_path__/cryosparc_worker_wice/bin/cryosparcw",
+    "worker_bin_path" : "__worker_path__/centos7_skylake/cryosparc_worker/bin/cryosparcw",
     "title": "genius-cpu",
     "cache_path": "/ssd/tmp",
     "qinfo_cmd_tpl": "sinfo --cluster=genius --format='%.8N %.6D %.10P %.6T %.14C %.5c %.6z %.7m %.7G %.9d %20E'",
