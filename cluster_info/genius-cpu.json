@@ -4,7 +4,7 @@
     "title": "genius-cpu",
     "cache_path": "/ssd/tmp",
     "qinfo_cmd_tpl": "sinfo --cluster=genius --format='%.8N %.6D %.10P %.6T %.14C %.5c %.6z %.7m %.7G %.9d %20E'",
-    "qsub_cmd_tpl": "sbatch --cluster=genius {{ script_path_abs }}",
+    "qsub_cmd_tpl": "sbatch --parsable --cluster=genius {{ script_path_abs }} 2> {{ script_path_abs }}.submitfilter | cut -d ';' -f1",
     "qstat_cmd_tpl": "squeue --cluster=genius -j {{ cluster_job_id }}",
     "cache_quota_mb": null,
     "send_cmd_tpl": "{{ command }}",
