@@ -27,7 +27,7 @@ If this is set up correctly, it should be sufficient to run:
 When the files in the repository are updated, you can synchronize your local
 version by running
 
-```git pull``
+```git pull```
 
 in the directory where you cloned the repository.
 
