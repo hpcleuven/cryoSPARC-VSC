@@ -17,12 +17,9 @@ jobs you also need a credit account. Finally you need a cryoSPARC license
 (which can be obtained for free for academic usage).
 
 The second requirement is that you can access the files of this repository on
-the cluster. The easiest way is by setting up authentication with Github using
-an ssh key as explained on
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh
-If this is set up correctly, it should be sufficient to run:
+the cluster. This can be simply done by executing:
 
-```git clone git@github.com:hpcleuven/cryoSPARC-VSC.git```
+```git clone https://github.com/hpcleuven/cryoSPARC-VSC.git```
 
 When the files in the repository are updated, you can synchronize your local
 version by running
