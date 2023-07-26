@@ -21,8 +21,7 @@ fi
 
 # Download and extract tar files
 curl -L https://get.cryosparc.com/download/master-latest/$LICENSE_ID -o cryosparc_master.tar.gz
-mkdir cryosparc_master
-tar -xf cryosparc_master.tar.gz -C cryosparc_master
+tar -xf cryosparc_master.tar.gz
 
 # Install master
 if [ ! -d ${SPARCDIR}/cryosparc_master ]; then
