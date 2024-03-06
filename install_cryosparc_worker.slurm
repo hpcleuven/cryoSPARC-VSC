@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -l
 
 #SBATCH --job-name=install_cryosparc_worker
 #SBATCH --nodes=1
@@ -7,8 +7,7 @@
 #SBATCH --partition=gpu_p100
 #SBATCH --cluster=genius
 #SBATCH --time=01:00:00
-# #SBATCH --account=<YOUR_CREDIT_ACCOUNT>
-#SBATCH --account=lpt2_sysadmin
+#SBATCH --account=<YOUR_CREDIT_ACCOUNT>
 
 source set_environment.sh
 
@@ -41,6 +40,7 @@ if [ ! -d ${target} ]; then
     exit
 fi
 cd ${target}/cryosparc_worker
-module use /apps/leuven/${VSC_ARCH_LOCAL}/2021a/modules/all
 module load CUDA/11.3.1
-./install.sh --license ${LICENSE_ID} --cudapath ${CUDA_ROOT}
+# Versions of CryoSPARC prior to v4.4.0 require --cudapath ${CUDA_ROOT},
+# in newer versions this option no longer exists
+./install.sh --license ${LICENSE_ID} # --cudapath ${CUDA_ROOT}
