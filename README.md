@@ -66,7 +66,7 @@ like this:
 
 which you can submit with `sbatch install_cryosparc_worker.slurm`. If
 everything goes well, the cryoSPARC worker will be installed in
-`${SPARCDIR}/centos7_skylake/cryosparc_worker`. Check the corresponding job
+`${SPARCDIR}/rocky8_skylake/cryosparc_worker`. Check the corresponding job
 output file in case something goes wrong.
 
 > **_NOTE:_** The value of `--account` should be a credit account to which

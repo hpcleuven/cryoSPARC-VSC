@@ -1,10 +1,10 @@
 {
     "qdel_cmd_tpl": "scancel --cluster=genius {{ cluster_job_id }}",
-    "worker_bin_path" : "__worker_path__/centos7_skylake/cryosparc_worker/bin/cryosparcw",
+    "worker_bin_path" : "__worker_path__/rocky8_skylake/cryosparc_worker/bin/cryosparcw",
     "title": "genius-p100",
     "cache_path": "/ssd/tmp",
     "qinfo_cmd_tpl": "sinfo --cluster=genius --format='%.8N %.6D %.10P %.6T %.14C %.5c %.6z %.7m %.7G %.9d %20E'",
-    "qsub_cmd_tpl": "sbatch --parsable --cluster=genius {{ script_path_abs }} 2> {{ script_path_abs }}.submitfilter | cut -d ';' -f1",
+    "qsub_cmd_tpl": "env > {{ script_path_abs}}.test; which python >> {{ script_path_abs}}.test; python -c 'import sys; print(sys.path)' >> {{ script_path_abs}}.test; sbatch --parsable --cluster=genius {{ script_path_abs }} 2> {{ script_path_abs }}.submitfilter | cut -d ';' -f1",
     "qstat_cmd_tpl": "squeue --cluster=genius -j {{ cluster_job_id }}",
     "cache_quota_mb": null,
     "send_cmd_tpl": "{{ command }}",
