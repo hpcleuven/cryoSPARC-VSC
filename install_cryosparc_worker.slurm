@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=install_cryosparc_worker
 #SBATCH --nodes=1
-#SBATCH --ntasks=9
+#SBATCH --ntasks=12
 #SBATCH --gpus-per-node=1
-#SBATCH --partition=gpu_p100
-#SBATCH --cluster=genius
+#SBATCH --partition=gpu_rome_a100
+#SBATCH --cluster=dodrio
 #SBATCH --time=01:00:00
 #SBATCH --account=<YOUR_CREDIT_ACCOUNT>
 
@@ -40,7 +40,7 @@ if [ ! -d ${target} ]; then
     exit
 fi
 cd ${target}/cryosparc_worker
-module load CUDA/11.3.1
+module load CUDA/11.7.0
 # Versions of CryoSPARC prior to v4.4.0 require --cudapath ${CUDA_ROOT},
 # in newer versions this option no longer exists
 ./install.sh --license ${LICENSE_ID} # --cudapath ${CUDA_ROOT}
