@@ -3,8 +3,9 @@
 This guide provides pointers to install cryoSPARC. It is based on the
 instructions provided at
 https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/downloading-and-installing-cryosparc
-customised for the VSC cluster (specifically the KU Leuven Tier-2 HPC). The
-proposed solution is based on a user installing cryoSPARC master in his
+customised for the VSC cluster (specifically the KU Leuven Tier-2 HPC). 
+Instructions to build specifically on Hortense can be found in the `build4hortense` branch.
+The proposed solution is based on a user installing cryoSPARC master in his
 personal directory and running the services on a login node.
 
 ## Prerequisites
@@ -27,6 +28,10 @@ version by running
 ```git pull```
 
 in the directory where you cloned the repository.
+
+If you are building on Hortense, then you need to take an additional step:
+
+```git checkout --track build4hortense```
 
 ## Installing cryoSPARC
 
