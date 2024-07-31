@@ -2,7 +2,7 @@
 
 source set_environment.sh
 
-for cluster in genius-cpu genius-p100 genius-p100-debug genius-v100 wice-a100
+for cluster in genius-cpu genius-p100 genius-p100-debug genius-v100 wice-a100 dodrio-gpu-rome-a100-40
 do
     cp cluster_info/${cluster}.json cluster_info.json
     cp cluster_info/${cluster}.sh cluster_script.sh
