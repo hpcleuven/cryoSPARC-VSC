@@ -40,7 +40,19 @@ if [ ! -d ${target} ]; then
     exit
 fi
 cd ${target}/cryosparc_worker
-module load CUDA/11.3.1
+
+if [ $VSC_INSTITUTE_CLUSTER == "dodrio" ]
+then
+    module load CUDA/11.7.0
+else
+    module load CUDA/11.3.1
+fi
+
 # Versions of CryoSPARC prior to v4.4.0 require --cudapath ${CUDA_ROOT},
 # in newer versions this option no longer exists
 ./install.sh --license ${LICENSE_ID} # --cudapath ${CUDA_ROOT}
+
+# In some cases, the shebang of the conda executable is not set correctly.
+# I am not sure why this happens, but replacing it seems enough to solve the issue.
+cp deps/anaconda/bin/conda deps/anaconda/bin/conda.backup
+sed -i "s|/usr/bin/env python|${PWD}/deps/anaconda/bin/python|" deps/anaconda/bin/conda
