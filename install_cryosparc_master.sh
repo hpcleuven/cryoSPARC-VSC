@@ -43,4 +43,7 @@ export master_hostname=$(echo -e "$(hostname -f)" | tr -d '[:space:]')
 # submitting a job because the system Python has another version and its
 # packages cannot be found. The temporary workaround is to link required
 # Python packages (slurm_foz) in the cryoSPARC conda environment
-# ln -s /usr/lib/python3.6/site-packages/slurm_foz \${SPARCDIR}/cryosparc_master/deps/anaconda/envs/cryosparc_master_env/lib/python3.8/site-packages/
+if [ -d /usr/lib/python3.6/site-packages/slurm_foz ]; then
+    ln -s /usr/lib/python3.6/site-packages/slurm_foz \${SPARCDIR}/cryosparc_master/deps/anaconda/envs/cryosparc_master_env/lib/python3.8/site-packages/
+fi
+
