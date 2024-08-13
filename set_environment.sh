@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export LICENSE_ID=
-export SPARCDIR=$VSC_SCRATCH_PROJECTS_BASE/apps/$VSC_INSTITUTE_CLUSTER/$VSC_ARCH_LOCAL$VSC_ARCH_SUFFIX/cryoSPARC
-export CREDIT_ACCOUNT=
+export LICENSE_ID='72461aba-4438-11ef-a483-d77ff7d7538e'
+export SPARCDIR=${VSC_DATA}/cryoSPARC
+export CREDIT_ACCOUNT='l_sysadmin'
 export SSD_PATH=${VSC_SCRATCH_NODE}
 
 # Do not edit below
