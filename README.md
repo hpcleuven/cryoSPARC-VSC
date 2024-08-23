@@ -1,25 +1,35 @@
 # cryoSPARC on the VSC clusters
 
 This guide provides pointers to install cryoSPARC. It is based on the
-instructions provided at
-https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/downloading-and-installing-cryosparc
-customised for the VSC cluster. It has been tested on the KU Leuven Tier-2
-clusters and on the Hortense Tier-1 cluster. The proposed solution is based
-on a user installing cryoSPARC master in their personal directory with a
-single user in the cryoSPARC database. It is assumed that computationally
-intensive work (which involves running `cryosparc_worker`) is submitted
-to a scheduler as jobs on the cluster.
+[official cryoSPARC guide](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/downloading-and-installing-cryosparc),
+but has been customised for the VSC cluster. It has been tested on the KU
+Leuven Tier-2 clusters and on the Hortense Tier-1 cluster. The proposed
+solution is based on a user installing cryoSPARC master in their personal
+directory with a single user in the cryoSPARC database. It is assumed that
+computationally intensive work (which involves running `cryosparc_worker`)
+is submitted to a scheduler as jobs on the cluster.
 
 ## Prerequisites
 
-It is assumed you have an active VSC account. Because the interaction with
-cryoSPARC happens through a webserver, you will need to either have a graphical
-connection to the node where the webserver is running, or set up port forwarding
-between your machine and the node where the webserver runs (see the
-instructions below. In order to run jobs you also need a credit account.
-Finally you need a cryoSPARC license (which can be obtained for free for academic usage).
+It is assumed you have an active VSC account. In order to run jobs you also need
+a valid credit account.
 
-The second requirement is that you can access the files of this repository on
+Because the interaction with cryoSPARC happens through a webserver, you will
+need to either have a graphical connection to the node where the webserver is
+running, or set up port forwarding between your machine and the node where the
+webserver runs (instructions for the latter case can be found at the end of this document).
+
+- **KU Leuven Tier-2:** At the moment of writing, the recommend approach is to
+  obtain a graphical connection by running a [NoMachine](https://docs.vscentrum.be/access/nx_start_guide.html#nomachine-nx-client-configuration) desktop on a login node.
+- **Hortense Tier-1:** The recommended approach is to launch a desktop from the
+  "Interactive Apps" pane on the [Tier-1 OnDemand portal](https://tier1.hpc.ugent.be).
+  Since only the cryoSPARC master will run inside this desktop, there is no need
+  to request a lot of resources (a few CPUs should suffice). On the other hand,
+  do take into account that the cryoSPARC master needs to remain running while
+  worker jobs are executed, so make sure to request the desktop for a
+  sufficiently long time.
+
+Another requirement is that you can access the files of this repository on
 the cluster. This can be simply done by executing:
 
 ```git clone https://github.com/hpcleuven/cryoSPARC-VSC.git```
@@ -31,20 +41,22 @@ version by running
 
 in the directory where you cloned the repository.
 
+Finally you need a cryoSPARC license (which can be obtained for free for
+academic usage [here](https://cryosparc.com/download)).
+
 ## Installing cryoSPARC
 
 First you need to edit the file `set_environment.sh` and specify your
 cryoSPARC license id and your credit account on the VSC. Optionally,
 you can adapt the installation directory; on the Tier-2 clusters, somewhere in
-${VSC_DATA} is probably the best option. On the Hortense Tier-1 cluster however,
+`${VSC_DATA}` is probably the best option. On the Hortense Tier-1 cluster however,
 it is better to use a directory in a subdirectory of `$VSC_SCRATCH_PROJECTS_BASE`
 to which you have access, taking into account the specific recommendations
 about installing software in a readonly mount point as explained
 at https://docs.vscentrum.be/gent/tier1_hortense.html#accessing-software-via-readonly-mount-point
 
 You can also set the directory where cryoSPARC will
-do SSD particle caching (see
-https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/tutorial-ssd-particle-caching-in-cryosparc),
+do [SSD particle caching](https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/tutorial-ssd-particle-caching-in-cryosparc),
 but the default value should be fine in most cases.
 
 The installation of the cryoSPARC master can be done by running:
@@ -202,15 +214,17 @@ user. There are a few different ways to do this.
 The first option is to launch a browser on the node where you launched the
 cryoSPARC master process. At the KU Leuven cluster, this can be done for
 instance by opening a NoMachine desktop and simply using the browser installed
-there. On Hortense, you can visit the OnDemand platform at
-https://tier1.hpc.ugent.be and launch a Cluster Desktop there. This will allow
-you to open a browser on a compute node, but you will be able to visit the
-webserver running at the login node as well. It is also possible to connect to
-the cluster with x-forwarding (see https://docs.vscentrum.be/access/linux_client.html#x-server
+there. On Hortense, you can visit the [OnDemand platform](https://tier1.hpc.ugent.be)
+and launch a Cluster Desktop there. This will allow you to open a browser on a
+compute node, but you will be able to visit the webserver running at the login
+node as well.
+
+It is also possible to connect to the cluster with x-forwarding
+(see https://docs.vscentrum.be/access/linux_client.html#x-server
 and https://docs.vscentrum.be/access/using_the_xming_x_server_to_display_graphical_programs.html),
 but often the interaction will not feel very responsive.
 
-A second option is that you launch a browser on your local machine after
+A third option is that you launch a browser on your local machine after
 setting port forwarding to the cluster. First we will discuss the case where
 you launched the cryoSPARC master on a login node. If your local machine runs
 Linux, MacOS, or WSL inside Windows, it suffices to execute a command that
