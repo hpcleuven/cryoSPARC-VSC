@@ -153,7 +153,12 @@ you have access.
 
 ## Starting and running the webserver
 
-Now the cryoSPARC master process can be started by running
+In order to set up your environment, execute
+
+```source set_environment.sh```
+
+in the directory where this repository is located. Now the cryoSPARC master
+process can be started by running
 
 ```cryosparcm start```
 
