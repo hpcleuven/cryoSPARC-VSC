@@ -217,7 +217,9 @@ instance by opening a NoMachine desktop and simply using the browser installed
 there. On Hortense, you can visit the [OnDemand platform](https://tier1.hpc.ugent.be)
 and launch a Cluster Desktop there. This will allow you to open a browser on a
 compute node, but you will be able to visit the webserver running at the login
-node as well.
+node as well. Launching a Bioimage Analysis Desktop or Neurodesk is also
+possible (for instance if specific software is needed for image analysis after
+using cryoSPARC).
 
 It is also possible to connect to the cluster with x-forwarding
 (see https://docs.vscentrum.be/access/linux_client.html#x-server
