@@ -270,7 +270,7 @@ installation. These job template files (for instance `cluster_info/hortense-a100
 contain a number of submission variables. Some of those variables (such as
 `{{ num_gpu }}` are predefined by cryoSPARC, but some others (such as `{{ walltime }}`)
 are custom. For more background, see the
-(official documentation)[https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/guide-configuring-custom-variables-for-cluster-job-submission-scripts]
+[official documentation](https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/guide-configuring-custom-variables-for-cluster-job-submission-scripts)
 
 In order to make use of these submission variables, the following step is
 **required** to have a working cryoSPARC installation. In the main cryoSPARC
