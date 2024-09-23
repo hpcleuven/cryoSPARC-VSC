@@ -261,3 +261,28 @@ ssh -J vsc33716@tier1.hpc.ugent.be -L 37160:localhost:37160 debug53
 This assumes your ssh configuration has been set up to use the correct public
 key to access `tier1.hpc.ugent.be`. To achieve the same thing in PuTTY, have a
 look at https://docs.vscentrum.be/access/setting_up_a_ssh_proxy_with_putty.html
+
+### Setting up submission script variables
+
+In a (previous section)[#adding-clusters-to-run-jobs], a job template that
+cryoSPARC will use when running worker jobs was added to the cryoSPARC
+installation. These job template files (for instance `cluster_info/hortense-a100.sh`)
+contain a number of submission variables. Some of those variables (such as
+`{{ num_gpu }}` are predefined by cryoSPARC, but some others (such as `{{ walltime }}`)
+are custom. For more background, see the
+(official documentation)[https://guide.cryosparc.com/setup-configuration-and-management/software-system-guides/guide-configuring-custom-variables-for-cluster-job-submission-scripts]
+In order to make use of these submission variables, the following step is
+**required** to have a working cryoSPARC installation. In the main cryoSPARC
+window, click on the three dots of the left and choose "Admin". Go tot the tab
+"Cluster Configuration" and add a key/default value pair for ech submission
+variable.
+
+![](images/submission_variables.png)
+
+At the moment of writing, the only such variable is the walltime,
+which indicates for how long the worker job will be able to run at most.
+When submitting a job from the cryoSPARC interface, you will be able to modify
+the submission variables as shown below. Of course if the default value chosen
+earlier is appropriate, there is no need to change this.
+
+![](images/submission_walltime.png)
