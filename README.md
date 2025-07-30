@@ -15,19 +15,17 @@ It is assumed you have an active VSC account. In order to run jobs you also need
 a valid credit account.
 
 Because the interaction with cryoSPARC happens through a webserver, you will
-need to either have a graphical connection to the node where the webserver is
-running, or set up port forwarding between your machine and the node where the
-webserver runs (instructions for the latter case can be found at the end of this document).
-
-- **KU Leuven Tier-2:** At the moment of writing, the recommend approach is to
-  obtain a graphical connection by running a [NoMachine](https://docs.vscentrum.be/access/nx_start_guide.html#nomachine-nx-client-configuration) desktop on a login node.
-- **Hortense Tier-1:** The recommended approach is to launch a desktop from the
-  "Interactive Apps" pane on the [Tier-1 OnDemand portal](https://tier1.hpc.ugent.be).
-  Since only the cryoSPARC master will run inside this desktop, there is no need
-  to request a lot of resources (a few CPUs should suffice). On the other hand,
-  do take into account that the cryoSPARC master needs to remain running while
-  worker jobs are executed, so make sure to request the desktop for a
-  sufficiently long time.
+need to be able access that webserver from a browser. By setting up port
+forwarding between your machine and the node where the cryoSPARC webserver
+running, you can use the browser on your local machine. Instructions on how to
+set up port forwarding are given in the [using cryoSPARC](#using-cryosparc)
+section. Alternatively, on some clusters such as the Tier-1 Hortense cluster,
+you can run a browser on the cluster inside a desktop via the
+[Tier-1 OnDemand portal](https://tier1.hpc.ugent.be). Since only the cryoSPARC
+master will run inside this desktop, there is no need to request a lot of
+resources (a few CPUs should suffice). On the other hand, do take into account
+that the cryoSPARC master needs to remain running while worker jobs are
+executed, so make sure to request the desktop for a sufficiently long time.
 
 Another requirement is that you can access the files of this repository on
 the cluster. This can be simply done by executing:
@@ -216,32 +214,20 @@ Now you can visit the address obtained after starting the cryoSPARC master
 in a browser and login with the credentials specified when creating a cryoSPARC
 user. There are a few different ways to do this.
 
-The first option is to launch a browser on the node where you launched the
-cryoSPARC master process. At the KU Leuven cluster, this can be done for
-instance by opening a NoMachine desktop and simply using the browser installed
-there. On Hortense, you can visit the [OnDemand platform](https://tier1.hpc.ugent.be)
-and launch a Cluster Desktop there. This will allow you to open a browser on a
-compute node, but you will be able to visit the webserver running at the login
-node as well. Launching a Bioimage Analysis Desktop or Neurodesk is also
-possible (for instance if specific software is needed for image analysis after
-using cryoSPARC).
-
-It is also possible to connect to the cluster with x-forwarding
-(see https://docs.vscentrum.be/access/linux_client.html#x-server
-and https://docs.vscentrum.be/access/using_the_xming_x_server_to_display_graphical_programs.html),
-but often the interaction will not feel very responsive.
-
-A third option is that you launch a browser on your local machine after
-setting port forwarding to the cluster. First we will discuss the case where
-you launched the cryoSPARC master on a login node. If your local machine runs
-Linux, MacOS, or WSL inside Windows, it suffices to execute a command that
-looks as follows:
+A first option is to launch a browser on your local machine after
+setting up port forwarding to the cluster. First we will discuss the case where
+you launched the cryoSPARC master on a login node. The following command does
+just that:
 ```
 ssh -L 37160:localhost:37160 vsc33716@login-genius.hpc.kuleuven.be
 ```
+
 Of course you need to make sure to adapt the ports, username, and hostname to
-your case.
-If your local machine runs Windows, you can set up port forwarding with PuTTY. In
+your case. This command can be executed from a terminal on Linux and MacOS
+machines and from WSL or Powershell on Windows.
+
+If your local machine runs Windows, you can also set up port forwarding with
+PuTTY (although this is more complicated then for example using Powershell). In
 your regular connection to the cluster, go to "Connection/SSH/Tunnels". Add a
 new forwarded port (in this example 37160) and use `localhost:37160` as the
 destination with the "Local" radio button selected. Now open the connection
@@ -252,15 +238,22 @@ in a browser on your local machine and you will be able to access the cryoSPARC
 webserver. From there you can follow the tutorial provided here:
 https://guide.cryosparc.com/processing-data/cryo-em-data-processing-in-cryosparc-introductory-tutorial
 
-In case the cryoSPARC master process runs on a compute node and you want to use
-your local browser, you will need to use the login node as a jump host. The
-command to do so looks as follows:
+In case the cryoSPARC master process runs on a compute node (`debug53` in the
+following example) and you want to use your local browser, you will need to
+use the login node as a jump host. The command to do so looks as follows:
 ```
 ssh -J vsc33716@tier1.hpc.ugent.be -L 37160:localhost:37160 debug53
 ```
 This assumes your ssh configuration has been set up to use the correct public
 key to access `tier1.hpc.ugent.be`. To achieve the same thing in PuTTY, have a
 look at https://docs.vscentrum.be/access/setting_up_a_ssh_proxy_with_putty.html
+
+Another option (currently only on the Tier-1 Hortense cluster), is to visit
+the [OnDemand platform](https://tier1.hpc.ugent.be) and launch a Cluster Desktop
+there. This will allow you to open a browser on a compute node, but you will be
+able to visit the webserver running at the login node as well. Launching a
+Bioimage Analysis Desktop or Neurodesk is also possible (for instance if
+specific software is needed for image analysis after using cryoSPARC).
 
 ### Setting up submission script variables
 
