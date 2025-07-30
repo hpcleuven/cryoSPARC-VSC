@@ -29,7 +29,7 @@
 #SBATCH --partition=gpu_rome_a100
 #SBATCH --output={{ job_log_path_abs }}.slurm
 #SBATCH --error={{ job_log_path_abs }}.slurm
-#SBATCH --time=24:00:00
+#SBATCH --time={{ walltime }}
 
 cd $SLURM_SUBMIT_DIR
 module load CUDA/11.7.0
