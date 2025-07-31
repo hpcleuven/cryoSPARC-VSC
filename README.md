@@ -216,22 +216,27 @@ user. There are a few different ways to do this.
 
 A first option is to launch a browser on your local machine after
 setting up port forwarding to the cluster. First we will discuss the case where
-you launched the cryoSPARC master on a login node. The following command does
-just that:
+you launched the cryoSPARC master on a Genius login node. The following command
+sets up port forwarding to your local machine:
+
 ```
-ssh -L 37160:localhost:37160 vsc33716@login-genius.hpc.kuleuven.be
+ssh -L 37160:localhost:37160 vsc33716@login1-tier2.hpc.kuleuven.be
 ```
 
 Of course you need to make sure to adapt the ports, username, and hostname to
 your case. This command can be executed from a terminal on Linux and MacOS
-machines and from WSL or Powershell on Windows.
+machines and from WSL or Powershell on Windows. Also make sure that you have
+a valid certificate in your ssh agent as explained
+[here](https://docs.vscentrum.be/accounts/mfa_login.html#connecting-with-an-ssh-agent)
 
 If your local machine runs Windows, you can also set up port forwarding with
 PuTTY (although this is more complicated then for example using Powershell). In
 your regular connection to the cluster, go to "Connection/SSH/Tunnels". Add a
-new forwarded port (in this example 37160) and use `localhost:37160` as the
-destination with the "Local" radio button selected. Now open the connection
-to start the port forwarding.
+new forwarded port (in this example 37160) and use
+`login1-tier2.hpc.kuleuven:37160` as the destination with the "Local" radio
+button selected (making the necessary modifications to the ports and the
+hostname). Now select the port forwarding rule and click "Open" to start the
+port forwarding.
 
 After the port forwarding has been set up correctly, you can simply visit `localhost:37160`
 in a browser on your local machine and you will be able to access the cryoSPARC
