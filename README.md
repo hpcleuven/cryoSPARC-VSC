@@ -68,8 +68,8 @@ run on a login node. It is however also possible to do this on a compute node,
 and typically you would use an interactive or debug partition for this end. One
 thing to keep in mind is that when submitting jobs from within cryoSPARC, the
 cryoSPARC master has to keep running as long as those jobs take. It is
-therefore not a good idea to run the cryoSPARC master on compute nodes on which
-you have a sufficiently long wall time.
+therefore not a good idea to run the cryoSPARC master on compute nodes unless
+you provide a sufficiently long wall time.
 
 > **_NOTE:_** If you try to run the cryoSPARC master on a node different from
 the original installation, you might see errors. In that case, search for the
@@ -82,54 +82,28 @@ types of GPUs. Additionally it is recommended to do the installation on a
 compute node that has the GPU in question. Therefore the worker installation
 will be done inside a job that is submitted to a compute node. A template job
 is provided in `install_cryosparc_worker.slurm`. You will need to modify this
-template, for instance for the P100 GPUs on the genius cluster the header looks
+template, for instance for the A100 GPUs on the wice cluster the header looks
 like this:
-
-```
-#SBATCH --job-name=install_cryosparc_worker
-#SBATCH --nodes=1
-#SBATCH --ntasks=9
-#SBATCH --gpus-per-node=1
-#SBATCH --partition=gpu_p100
-#SBATCH --cluster=genius
-#SBATCH --time=01:00:00
-#SBATCH --account=<credit_account>
-```
-
-which you can submit with `sbatch install_cryosparc_worker.slurm`. If
-everything goes well, the cryoSPARC worker will be installed in
-`${SPARCDIR}/rocky8_skylake/cryosparc_worker`. Check the corresponding job
-output file in case something goes wrong.
-
-> **_NOTE:_** The value of `--account` should be a credit account to which
-you have access. Execute `sam-balance` on the cluster to see to which accounts
-you have access.
-
-On the genius cluster there are also two nodes with V100 GPUs, for which the
-header looks like:
-
-```
-#SBATCH --job-name=install_cryosparc_worker
-#SBATCH --nodes=1
-#SBATCH --ntasks=4
-#SBATCH --gpus-per-node=1
-#SBATCH --partition=gpu_v100
-#SBATCH --cluster=genius
-#SBATCH --account=<credit_account>
-```
-
-On the wICE cluster, A100 GPUs are available. To install the cryoSPARC worker
-there, use the following header in the job script:
 
 ```
 #SBATCH --job-name=install_cryosparc_worker
 #SBATCH --nodes=1
 #SBATCH --ntasks=18
 #SBATCH --gpus-per-node=1
-#SBATCH --partition=gpu
+#SBATCH --partition=gpu_a100
 #SBATCH --cluster=wice
+#SBATCH --time=01:00:00
 #SBATCH --account=<credit_account>
 ```
+
+which you can submit with `sbatch install_cryosparc_worker.slurm`. If
+everything goes well, the cryoSPARC worker will be installed in
+`${SPARCDIR}/rocky9_icelake/cryosparc_worker`. Check the corresponding job
+output file in case something goes wrong.
+
+> **_NOTE:_** The value of `--account` should be a credit account to which
+you have access. Execute `sam-balance` on the cluster to see to which accounts
+you have access.
 
 On the Tier-1 Hortense cluster you could use A100 GPUs from the `gpu_rome_a100`
 partition. After executing `module swap cluster/dodrio/gpu_rome_a100`, you can
@@ -172,11 +146,10 @@ can help to troubleshoot in case of problems.
 If all goes well, the command above should print an address at
 which you can access the cryoSPARC web services. It looks as follows:
 
-```http://tier2-p-login-3.genius.hpc.kuleuven.be:37160```
+```http://tier2-p-login-3.genius.hpc.kuleuven.be:3716```
 
 Note down this address for later. The port is set to the last 4 digits of your
-VSC account with a 0 appended to it. You will need the port later on, so also
-take note of that.
+VSC account. You will need the port later on, so also take note of that.
 
 In case of problems, you can have a look at:
 https://guide.cryosparc.com/setup-configuration-and-management/management-and-monitoring/cryosparcm
@@ -190,11 +163,11 @@ Before you can actually use cryoSPARC, you need to create a cryoSPARC user
 for yourself. You can adapt the settings to your liking:
 
 ```
-cryosparcm createuser --email "john.doe@kuleuven.be" \
-                      --password "abcdefg" \
-                      --username "johndoe" \
-                      --firstname "John" \
-                      --lastname "Doe"
+cryosparcm user create --email "john.doe@kuleuven.be" \
+                       --password "abcdefg" \
+                       --username "johndoe" \
+                       --firstname "John" \
+                       --lastname "Doe"
 ```
 
 ### Adding clusters to run jobs 
@@ -220,11 +193,12 @@ you launched the cryoSPARC master on a Genius login node. The following command
 sets up port forwarding to your local machine:
 
 ```
-ssh -L 37160:localhost:37160 vsc33716@login1-tier2.hpc.kuleuven.be
+ssh -L 3716:localhost:3716 vsc33716@login.hpc.kuleuven.be
 ```
 
-Of course you need to make sure to adapt the ports, username, and hostname to
-your case. This command can be executed from a terminal on Linux and MacOS
+Of course you need to make sure to adapt the ports and username to your case.
+Also verify you land on the same login node where you started the cryosparc
+master. The ``ssh`` command can be executed from a terminal on Linux and MacOS
 machines and from WSL or Powershell on Windows. Also make sure that you have
 a valid certificate in your ssh agent as explained
 [here](https://docs.vscentrum.be/accounts/mfa_login.html#connecting-with-an-ssh-agent)
@@ -232,22 +206,22 @@ a valid certificate in your ssh agent as explained
 If your local machine runs Windows, you can also set up port forwarding with
 PuTTY (although this is more complicated then for example using Powershell). In
 your regular connection to the cluster, go to "Connection/SSH/Tunnels". Add a
-new forwarded port (in this example 37160) and use
-`login1-tier2.hpc.kuleuven:37160` as the destination with the "Local" radio
+new forwarded port (in this example 3716) and use
+`login1-tier2.hpc.kuleuven:3716` as the destination with the "Local" radio
 button selected (making the necessary modifications to the ports and the
 hostname). Now select the port forwarding rule and click "Open" to start the
 port forwarding.
 
-After the port forwarding has been set up correctly, you can simply visit `localhost:37160`
+After the port forwarding has been set up correctly, you can simply visit `localhost:3716`
 in a browser on your local machine and you will be able to access the cryoSPARC
 webserver. From there you can follow the tutorial provided here:
-https://guide.cryosparc.com/processing-data/cryo-em-data-processing-in-cryosparc-introductory-tutorial
+https://guide.cryosparc.com/processing-data/get-started-with-cryosparc-introductory-tutorial
 
 In case the cryoSPARC master process runs on a compute node (`debug53` in the
 following example) and you want to use your local browser, you will need to
 use the login node as a jump host. The command to do so looks as follows:
 ```
-ssh -J vsc33716@tier1.hpc.ugent.be -L 37160:localhost:37160 debug53
+ssh -J vsc33716@tier1.hpc.ugent.be -L 3716:localhost:3716 debug53
 ```
 This assumes your ssh configuration has been set up to use the correct public
 key to access `tier1.hpc.ugent.be`. To achieve the same thing in PuTTY, have a
@@ -272,7 +246,7 @@ are custom. For more background, see the
 
 In order to make use of these submission variables, the following step is
 **required** to have a working cryoSPARC installation. In the main cryoSPARC
-window, click on the three dots of the left and choose "Admin". Go tot the tab
+window, click on the three dots of the left and choose "Admin". Go to the tab
 "Cluster Configuration" and add a key/default value pair for ech submission
 variable.
 

@@ -2,10 +2,10 @@
 
 #SBATCH --job-name=install_cryosparc_worker
 #SBATCH --nodes=1
-#SBATCH --ntasks=9
+#SBATCH --ntasks=18
 #SBATCH --gpus-per-node=1
-#SBATCH --partition=gpu_p100
-#SBATCH --cluster=genius
+#SBATCH --partition=gpu_a100
+#SBATCH --cluster=wice
 #SBATCH --time=01:00:00
 #SBATCH --account=<YOUR_CREDIT_ACCOUNT>
 
@@ -48,11 +48,4 @@ else
     module load CUDA/11.3.1
 fi
 
-# Versions of CryoSPARC prior to v4.4.0 require --cudapath ${CUDA_ROOT},
-# in newer versions this option no longer exists
-./install.sh --license ${LICENSE_ID} # --cudapath ${CUDA_ROOT}
-
-# In some cases, the shebang of the conda executable is not set correctly.
-# I am not sure why this happens, but replacing it seems enough to solve the issue.
-cp deps/anaconda/bin/conda deps/anaconda/bin/conda.backup
-sed -i "s|/usr/bin/env python|${PWD}/deps/anaconda/bin/python|" deps/anaconda/bin/conda
+./install.sh --license ${LICENSE_ID}
