@@ -7,7 +7,7 @@ then
     cluster_lanes="hortense-a100"
 elif [ $VSC_INSTITUTE_CLUSTER == "genius" ] || [ $VSC_INSTITUTE_CLUSTER == "wice" ]
 then
-    cluster_lanes="genius-cpu genius-p100 genius-p100-debug genius-v100 wice-a100"
+    cluster_lanes="wice-icelake wice-a100 wice-a100-debug"
 else
     echo "Unable to determine cluster lanes for VSC_INSTUTE_CLUSTER=$VSC_INSTITUTE_CLUSTER"
     exit 1
